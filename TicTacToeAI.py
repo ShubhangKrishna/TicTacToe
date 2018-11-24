@@ -31,9 +31,16 @@ def game_status(game):
 
     return 0
 
+def wining (game,player)
+def empty_indices(game):
+    L=[]
+    for i in inage (0,len(game)):
+        if (game[i]==""):
+            L.append(i)
 
-def find_best_move(game):
-    pass
+    return L
+def minimax(game, plauer):
+    avail_spot=empty_indices(game)
 
 def print_board(game):
     print game[0]," | ",game[1]," | ",game[2]
@@ -45,10 +52,11 @@ def print_board(game):
 
 def main(game):
     print_board(game)
-
-   # while game_status(game)==0:
-    #    inp=input("Enter the position you want to enter in(1-9): ")
-     #   game[inp-1]="X"
+    hu_player="X"
+    ai_player="O"
+    while game_status(game)==0:
+        inp=input("Enter the position you want to enter in(1-9): ")
+        game[inp-1]= hu_player
 
 
 

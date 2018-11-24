@@ -34,7 +34,8 @@ def game_status(game):
 
 def wining (game,player):  
 
-    if (game[0]==player and game[4]==player and game[8]==player) or (game[2] == player and game[4] == player and game[6] == player) or (game[0] == player and game[1] == player and game[2] == player) or  (game[3] == player and game[4] == player and game[5] == player) or (game[6] == player and game[7] == player and game[8] == player) or (game[0] == player and game[3] == player and game[6] == player) or (game[1] == player and game[4] == player and game[7] == player) or (game[3]==player and game[5]==player and game[8]==player):
+    if (game[0]==player and game[4]==player and game[8]==player)
+     or (game[2] == player and game[4] == player and game[6] == player) or (game[0] == player and game[1] == player and game[2] == player) or  (game[3] == player and game[4] == player and game[5] == player) or (game[6] == player and game[7] == player and game[8] == player) or (game[0] == player and game[3] == player and game[6] == player) or (game[1] == player and game[4] == player and game[7] == player) or (game[3]==player and game[5]==player and game[8]==player):
         return True
     else: 
         return False  
@@ -43,7 +44,7 @@ def wining (game,player):
 def empty_indices(game):
     L=[]
     for i in range (0,len(game)):
-        if (game[i]==""):
+        if (game[i]!="X" and game[i]!="O"):
             L.append(i)
 
     return L
@@ -64,7 +65,7 @@ def minimax(game_in, player):
 
     moves=[]
     #print moves
-    print avail_spot
+    #print avail_spot
     for i in range (0,len(avail_spot)):
         move={}
         #game[avail_spot[i]]=move[i]
@@ -74,13 +75,13 @@ def minimax(game_in, player):
 
         if (player==ai_player):
             result =minimax(game,hu_player)
-            move.score = result[score]
+            move[score] = result[score]
 
         game[avail_spot[i]]=move[i]
 
         moves.append(move)
-    print game
-    print moves
+   # print game
+   # print moves
     best_move=-1
 
     if player==ai_player:
@@ -111,23 +112,28 @@ def print_board(game):
 def main(game):
     print_board(game)
     while game_status(game)==0:
-        inp=input("Enter the position you want to enter in(1-9): ")
-        game[inp-1]= hu_player
-        ai_play=minimax(game,hu_player)
-        if ai_play==-10: 
-            print "Human Wins"
-            break
-
-        elif ai_play==-1: 
-            print "Tie"
-            break
-
-        elif ai_play==10:
-            print "Computer wins"
-            break
-        else:
+        inp=input("Enter the position you want to enter in(0-8): ")
+        game[inp]= hu_player
+        result=minimax(game,hu_player)
+        if type(result)==dict :
+            result = list(result.values())
+            ai_play=result[0]
             game[ai_play]=ai_player
             print_board(game)
 
+        else: 
+            ai_play=result 
+            if ai_play==-10: 
+                print "Human Wins"
+                break
+
+            elif ai_play==-1: 
+                print "Tie"
+                break
+
+            elif ai_play==10:
+                print "Computer wins"
+                break
+       
 
 main(game)

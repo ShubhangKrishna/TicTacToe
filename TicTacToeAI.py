@@ -1,6 +1,6 @@
-import math
 
-game=["","","","","","","","",""]
+
+game=[0,1,2,3,4,5,6,7,8]
 hu_player="X"
 ai_player="O"
 def game_status(game):
@@ -42,7 +42,7 @@ def wining (game,player):
 
 def empty_indices(game):
     L=[]
-    for i in inage (0,len(game)):
+    for i in range (0,len(game)):
         if (game[i]==""):
             L.append(i)
 
@@ -50,12 +50,12 @@ def empty_indices(game):
 def minimax(game_in, player):
     game=game_in
     avail_spot=empty_indices(game)
-    score=0
-    if winning(game,hu_player):
+    score=-1
+    if wining(game,hu_player):
         score=-10
         return score
 
-    elif winning(game,ai_player):
+    elif wining(game,ai_player):
         score=10
         return score
     elif len(avail_spot)==0:
@@ -63,27 +63,42 @@ def minimax(game_in, player):
     
 
     moves=[]
-
+    #print moves
+    print avail_spot
     for i in range (0,len(avail_spot)):
         move={}
+        #game[avail_spot[i]]=move[i]
         move[i]=game[avail_spot[i]]
 
         game[avail_spot[i]]=player
 
         if (player==ai_player):
-            result =minimax(game.hu_player)
+            result =minimax(game,hu_player)
             move.score = result[score]
 
         game[avail_spot[i]]=move[i]
 
         moves.append(move)
-
-
-    best_move=int
+    print game
+    print moves
+    best_move=-1
 
     if player==ai_player:
-        
-        
+        best_score=-10000
+        for i in range (0,len(moves)):
+            if moves[i]>best_score:
+                best_score=moves[i]
+                best_move=i
+    else:
+        best_score=10000
+        for i in range(0,len(moves)):
+            if moves[i]<best_score:
+                best_move=i
+
+
+    return moves[best_move]
+
+
 
 def print_board(game):
     print game[0]," | ",game[1]," | ",game[2]
@@ -98,7 +113,21 @@ def main(game):
     while game_status(game)==0:
         inp=input("Enter the position you want to enter in(1-9): ")
         game[inp-1]= hu_player
+        ai_play=minimax(game,hu_player)
+        if ai_play==-10: 
+            print "Human Wins"
+            break
 
+        elif ai_play==-1: 
+            print "Tie"
+            break
+
+        elif ai_play==10:
+            print "Computer wins"
+            break
+        else:
+            game[ai_play]=ai_player
+            print_board(game)
 
 
 main(game)
